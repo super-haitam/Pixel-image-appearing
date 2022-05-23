@@ -35,7 +35,7 @@ for j in range(origin_img_h):
             for img_color in img_colors:
                 integer = 0
                 for k in range(3):
-                    if loaded_px[i, j][k] in range(img_color[k]-15, img_color[k]+15):
+                    if loaded_px[i, j][k] in range(img_color[k]-20, img_color[k]+20):
                         integer += 1
                 if integer == 3:
                     rounded_color = img_color
