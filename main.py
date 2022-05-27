@@ -6,7 +6,6 @@ import random
 from get_image_path import get_img_path
 pygame.init()
 
-# todo: Make the colors that are approximately the same to actually the same
 
 # Colors
 WHITE = (255, 255, 255)
@@ -14,7 +13,13 @@ BLACK = (0, 0, 0)
 
 # Get origin_img location path & open the image
 origin_img_path = get_img_path()
-origin_img = Image.open(origin_img_path)
+
+try:
+    origin_img = Image.open(origin_img_path)
+except FileNotFoundError:
+    print(f"FileNotFoundError: No such file or directory: '{origin_img_path}'")
+    quit()
+
 ratio = origin_img.size[0] / origin_img.size[1]
 if origin_img.size[0] >= origin_img.size[1]:
     W = min(origin_img.size[0], 350)
@@ -91,6 +96,11 @@ def draw_screen():
     txt = font.render(f"Count: {count}", True, WHITE)
     screen.blit(txt, ((WIDTH - txt.get_width())/2, (margin_y - txt.get_height())/2))
 
+    if count == len(img_colors):
+        font = pygame.font.SysFont("comicsans", 30)
+        txt = font.render(f"The Image appeared completely pixel by pixel.", True, WHITE)
+        screen.blit(txt, ((WIDTH - txt.get_width())/2, HEIGHT*(5/6)))
+
     pygame.display.flip()
 
 
@@ -114,6 +124,8 @@ while running:
             running = False
 
     draw_screen()
+    if count == len(img_colors):
+        continue
 
     for j in range(origin_img_h):
         for i in range(origin_img_w):
