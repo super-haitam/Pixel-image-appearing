@@ -88,7 +88,10 @@ def draw_screen():
 
     for j in range(origin_img_h):
         for i in range(origin_img_w):
-            px_list[j][i].draw()
+            px = px_list[j][i]
+            if px.color != loaded_px[i, j]:
+                px.random_color()
+            px.draw()
 
     screen.blit(pygame_image, (10, (HEIGHT - pygame_image.get_height())/2))
 
@@ -127,9 +130,4 @@ while running:
     if count == len(img_colors):
         continue
 
-    for j in range(origin_img_h):
-        for i in range(origin_img_w):
-            px = px_list[j][i]
-            if px.color != loaded_px[i, j]:
-                px.random_color()
     count += 1
