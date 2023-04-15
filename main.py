@@ -32,6 +32,7 @@ else:
 origin_img_w, origin_img_h = origin_img.size
 loaded_px = origin_img.load()
 
+print("Trying to round the colors to the nearestc, and decrease the number of colors")
 img_colors = []
 for j in range(origin_img_h):
     for i in range(origin_img_w):
@@ -69,13 +70,14 @@ margin_x, margin_y = WIDTH/2.3, HEIGHT/4
 class Pixel:
     def __init__(self, x, y, w, h):
         self.rect = pygame.Rect([x, y, w, h])
-        self.got_colors = []
+        self.got_colors = set()
+        self.img_colors_set = set(img_colors)
         self.random_color()
 
     def random_color(self):
-        set1, set2 = set(img_colors), set(self.got_colors)
-        self.color = random.choice(list(set1.difference(set2)))
-        self.got_colors.append(self.color)
+        left_colors_set = self.img_colors_set.difference(self.got_colors)
+        self.color = random.choice(list(left_colors_set))
+        self.got_colors.add(self.color)
 
     def draw(self):
         pygame.draw.rect(screen, self.color, self.rect)

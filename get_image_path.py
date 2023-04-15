@@ -12,7 +12,7 @@ def get_path():
 
 
 Label(window, text="Paste the absolute path of the image").pack()
-path_entry = Entry(window)
+path_entry = Entry(window, width=50)
 path_entry.pack()
 Button(window, text="Enter", command=get_path).pack()
 
